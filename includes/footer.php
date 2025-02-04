@@ -1,7 +1,3 @@
 <footer>
-    <div class="container">
-        <p>&copy; <?= date("Y"); ?> CRUD Application. All rights reserved.</p>
-    </div>
+    <p>&copy; 2025 PHP CRUD Application</p>
 </footer>
-</body>
-</html>
