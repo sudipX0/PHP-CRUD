@@ -20,7 +20,7 @@ $user = $result->fetch_assoc();
 $stmt->close();
 
 // Handle profile update
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_profile'])) {
     $first_name = trim($_POST['first_name']);
     $last_name = trim($_POST['last_name']);
     $email = trim($_POST['email']);
@@ -73,6 +73,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $update_stmt->close();
 }
 
+// Handle account deletion
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_account'])) {
+    // Delete user from the database
+    $delete_stmt = $conn->prepare("DELETE FROM users WHERE id = ?");
+    $delete_stmt->bind_param("i", $user_id);
+
+    if ($delete_stmt->execute()) {
+        session_destroy(); // End session
+        header("Location: index.php?message=Account deleted successfully.");
+        exit();
+    } else {
+        header("Location: profile.php?error=Failed to delete account.");
+        exit();
+    }
+
+    $delete_stmt->close();
+}
+
 $conn->close();
 ?>
 
@@ -82,7 +100,6 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
-    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
@@ -115,7 +132,12 @@ $conn->close();
             <input type="file" id="profile_picture" name="profile_picture" accept="image/*">
             <img src="<?php echo !empty($user['profile_picture']) ? $user['profile_picture'] : 'default-avatar.png'; ?>" alt="Profile Picture" width="100">
 
-            <button type="submit">Update Data</button>
+            <button type="submit" name="update_profile">Update Profile</button>
+        </form>
+
+        <!-- Delete Account Form -->
+        <form action="profile.php" method="POST" onsubmit="return confirm('Are you sure you want to delete your account? This action cannot be undone.');">
+            <button type="submit" name="delete_account" >Delete Profile</button>
         </form>
 
         <a href="logout.php" class="logout-btn">Logout</a>
