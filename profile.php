@@ -100,47 +100,77 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <div class="container">
-        <h2>Edit Profile</h2>
+<body class="bg-gray-100">
 
-        <!-- Success & Error Message -->
-        <?php if (isset($_GET['error'])): ?>
-            <p style="color: red;"><?php echo htmlspecialchars($_GET['error']); ?></p>
-        <?php elseif (isset($_GET['success'])): ?>
-            <p style="color: green;"><?php echo htmlspecialchars($_GET['success']); ?></p>
-        <?php endif; ?>
+    <div class="flex justify-center items-center h-screen">
+        <div class="w-full sm:w-120 md:w-1/2 lg:w-1/3 bg-white p-8 rounded-xl shadow-lg">
 
-        <form action="profile.php" method="POST" enctype="multipart/form-data">
-            <label for="first_name">First Name:</label>
-            <input type="text" id="first_name" name="first_name" value="<?php echo htmlspecialchars($user['first_name']); ?>" required>
 
-            <label for="last_name">Last Name:</label>
-            <input type="text" id="last_name" name="last_name" value="<?php echo htmlspecialchars($user['last_name']); ?>" required>
+            <!-- Profile Picture -->
+            <div class="flex justify-center mb-6">
+                <img src="<?php echo !empty($user['profile_picture']) ? $user['profile_picture'] : 'default-avatar.png'; ?>" alt="Profile Picture" class="w-32 h-32 rounded-full">
+            </div>
 
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($user['email']); ?>" required>
+            <!-- Title -->
+            <h2 class="text-2xl font-bold text-indigo-500 text-center mb-6">My Profile</h2>
 
-            <label for="phone">Phone Number:</label>
-            <input type="text" id="phone" name="phone" value="<?php echo htmlspecialchars($user['phone']); ?>" required>
+            <!-- Success & Error Messages -->
+            <?php if (isset($_GET['error'])): ?>
+                <p class="text-red-500 text-center mb-4"><?php echo htmlspecialchars($_GET['error']); ?></p>
+            <?php elseif (isset($_GET['success'])): ?>
+                <p class="text-green-500 text-center mb-4"><?php echo htmlspecialchars($_GET['success']); ?></p>
+            <?php endif; ?>
 
-            <label for="dob">Date of Birth:</label>
-            <input type="date" id="dob" name="dob" value="<?php echo htmlspecialchars($user['dob']); ?>" required>
+            <!-- Edit Profile Form -->
+            <form action="profile.php" method="POST" enctype="multipart/form-data">
 
-            <label for="profile_picture">Profile Picture:</label>
-            <input type="file" id="profile_picture" name="profile_picture" accept="image/*">
-            <img src="<?php echo !empty($user['profile_picture']) ? $user['profile_picture'] : 'default-avatar.png'; ?>" alt="Profile Picture" width="100">
+                <!-- First and Last Name (side by side) -->
+                <div class="flex space-x-4 mb-4">
+                    <div class="w-full">
+                        <label for="first_name" class="block text-gray-700 font-medium">First Name:</label>
+                        <input type="text" id="first_name" name="first_name" value="<?php echo htmlspecialchars($user['first_name']); ?>" class="w-full p-2 border border-gray-300 rounded-lg" required>
+                    </div>
+                    <div class="w-full">
+                        <label for="last_name" class="block text-gray-700 font-medium">Last Name:</label>
+                        <input type="text" id="last_name" name="last_name" value="<?php echo htmlspecialchars($user['last_name']); ?>" class="w-full p-2 border border-gray-300 rounded-lg" required>
+                    </div>
+                </div>
 
-            <button type="submit" name="update_profile">Update Profile</button>
-        </form>
+                <!-- Email and Phone Number (side by side) -->
+                <div class="flex space-x-4 mb-4">
+                    <div class="w-full">
+                        <label for="email" class="block text-gray-700 font-medium">Email:</label>
+                        <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($user['email']); ?>" class="w-full p-2 mt-2 mb-4 border border-gray-300 rounded-lg" style="min-width: 100%;" required>
 
-        <!-- Delete Account Form -->
-        <form action="profile.php" method="POST" onsubmit="return confirm('Are you sure you want to delete your account? This action cannot be undone.');">
-            <button type="submit" name="delete_account" >Delete Profile</button>
-        </form>
+                    </div>
+                    <div class="w-full">
+                        <label for="phone" class="block text-gray-700 font-medium">Phone Number:</label>
+                        <input type="text" id="phone" name="phone" value="<?php echo htmlspecialchars($user['phone']); ?>" class="w-full p-2 border border-gray-300 rounded-lg" required>
+                    </div>
+                </div>
 
-        <a href="logout.php" class="logout-btn">Logout</a>
+                <!-- Date of Birth -->
+                <label for="dob" class="block text-gray-700 font-medium">Date of Birth:</label>
+                <input type="date" id="dob" name="dob" value="<?php echo htmlspecialchars($user['dob']); ?>" class="w-full p-2 mb-4 border border-gray-300 rounded-lg" required>
+
+                <!-- Profile Picture -->
+                <label for="profile_picture" class="block text-gray-700 font-medium">Profile Picture:</label>
+                <input type="file" id="profile_picture" name="profile_picture" accept="image/*" class="w-full p-2 mb-4 border border-gray-300 rounded-lg">
+
+                <!-- Submit Button -->
+                <button type="submit" name="update_profile" class="w-full py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition duration-200">Update Profile</button>
+            </form>
+
+            <!-- Delete Account Form -->
+            <form action="profile.php" method="POST" onsubmit="return confirm('Are you sure you want to delete your account? This action cannot be undone.');">
+                <button type="submit" name="delete_account" class="w-full py-2 mt-4 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-200">Delete Account</button>
+            </form>
+        </div>
     </div>
+
 </body>
 </html>
+
+<?php include 'footer.php'; ?>

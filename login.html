@@ -4,37 +4,64 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <div class="container">
-        <h2>Login</h2>
-        
-        <!-- Error Message Display -->
-        <p id="error-message" style="color: red; display: none;"></p>
+<body class="bg-gray-100">
 
-        <form action="login.php" method="POST">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
+    <!-- Container for centering the form -->
+    <div class="flex justify-center items-center h-screen">
 
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
+        <!-- Form container -->
+        <div class="w-full sm:w-96 bg-white p-8 rounded-xl shadow-lg">
 
-            <button type="submit">Login</button>
-        </form>
-        <p>Don't have an account? <a href="signup.html">Sign up</a></p>
+            <!-- Title -->
+            <h2 class="text-2xl font-bold text-indigo-500 text-center mb-2">Welcome to MTM !</h2>
+            <p class="text-sm text-gray-500 text-center mb-8">Track your daily tasks and stay organized.</p>
+
+            <!-- Error Message Display -->
+            <div id="error-message" class="text-red-500 text-center mb-4" style="display: none;">
+                <?php
+                if (isset($_GET['error'])) {
+                    echo htmlspecialchars($_GET['error']);
+                }
+                ?>
+            </div>
+
+            <!-- Image -->
+            <div class="text-center mb-6">
+                <img src="images/login.png" alt="Login Image" class="mx-auto w-48 h-48 mb-4">
+            </div>
+
+            <!-- Login Form -->
+            <form action="login.php" method="POST">
+                <label for="email" class="block text-gray-700 font-medium">Email:</label>
+                <input type="email" id="email" name="email" class="w-full p-2 mt-2 mb-4 border border-gray-300 rounded-lg" required>
+
+                <label for="password" class="block text-gray-700 font-medium">Password:</label>
+                <input type="password" id="password" name="password" class="w-full p-2 mt-2 mb-4 border border-gray-300 rounded-lg" required>
+
+                <button type="submit" class="w-full py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition duration-200">
+                    Login
+                </button>
+            </form>
+
+            <!-- Sign up link -->
+            <p class="mt-4 text-center text-gray-600">
+                Don't have an account? 
+                <a href="signup.html" class="text-indigo-500 hover:text-indigo-600">Sign up</a>
+            </p>
+        </div>
     </div>
 
     <script>
-        // Check if there is an error message in the URL
+        // Show error messages if redirected with an error
         const urlParams = new URLSearchParams(window.location.search);
         const errorMessage = urlParams.get('error');
-
         if (errorMessage) {
-            const errorElement = document.getElementById("error-message");
-            errorElement.innerText = errorMessage;
-            errorElement.style.display = "block";
+            document.getElementById("error-message").innerText = errorMessage;
+            document.getElementById("error-message").style.display = "block";
         }
     </script>
+
 </body>
 </html>
