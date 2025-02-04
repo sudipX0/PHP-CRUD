@@ -1,23 +1,18 @@
 <?php
 session_start();
+include 'header.php';
+include 'navbar.php';
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-    <link rel="stylesheet" href="public/assets/css/style.css">
-</head>
-<body>
-    <div class="container">
-        <?php if (isset($_SESSION['user'])): ?>
-            <h2>Welcome, <?= $_SESSION['user']; ?></h2>
-            <a href="auth/logout.php">Logout</a>
-        <?php else: ?>
-            <h2>Welcome to the CRUD App</h2>
-            <a href="auth/login.php">Login</a> | <a href="auth/register.php">Register</a>
-        <?php endif; ?>
-    </div>
-</body>
-</html>
+<div class="container">
+    <?php if (isset($_SESSION['user'])): ?>
+        <h2>Welcome, <?= $_SESSION['user']; ?>!</h2>
+        <p>You're logged in and ready to manage your items.</p>
+        <a href="crud/create.php" class="button">Add New Item</a>
+    <?php else: ?>
+        <h2>Welcome to the CRUD App</h2>
+        <p>Start by logging in or registering to manage your items.</p>
+        <a href="auth/login.php" class="button">Login</a>
+        <a href="auth/register.php" class="button">Register</a>
+    <?php endif; ?>
+</div>
+<?php include 'footer.php'; ?>
